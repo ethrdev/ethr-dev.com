@@ -1,0 +1,56 @@
+/* Style for the code block within elements with data attribute 'data-rehype-pretty-code-fragment' */
+[data-rehype-pretty-code-fragment] code {
+
+  /* Apply Tailwind CSS classes for grid layout, full width, word break, no border radius, no border, transparent background, no padding, small text 
+  size, and black text color */
+  @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 text-sm text-black;
+  
+  /* Reset the counter for line numbers */
+  counter-reset: line;
+
+  /* Ensure the box decoration is applied to the entire fragment */
+  box-decoration-break: clone;
+}
+
+/* Style for each line of code within the fragment */
+[data-rehype-pretty-code-fragment] .line {
+  /* Apply Tailwind CSS classes for padding on the x-axis and y-axis */
+  @apply px-4 py-1;
+}
+
+/* Style for line numbers within the fragment */
+[data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: gray;
+}
+
+/* Style for highlighted lines within the fragment */
+[data-rehype-pretty-code-fragment] .line--highlighted {
+  /* Apply Tailwind CSS classes for light background color and opacity */
+  @apply bg-zinc-300 bg-opacity-10;
+}
+
+/* Style for highlighted spans within a highlighted line */
+[data-rehype-pretty-code-fragment] .line-highlighted span {
+  @apply relative;
+}
+
+/* Style for highlighted words within the fragment */
+[data-rehype-pretty-code-fragment] .word--highlighted {
+  @apply rounded-md bg-zinc-300 bg-opacity-10 p-1;
+}
+
+/* Style for the title of the code block */
+[data-rehype-pretty-code-title] {
+  @apply mt-4 py-2 px-4 text-sm font-medium;
+}
+
+/* Style for the code block immediately following the title */
+[data-rehype-pretty-code-title] + pre {
+  @apply mt-0;
+}
