@@ -2,8 +2,6 @@ import Link from "next/link";
 import React from "react";
 import { allProjects } from "contentlayer/generated";
 import { Navigation } from "../components/nav";
-import { Redis } from "@upstash/redis";
-import { Eye } from "lucide-react";
 import { CardContainer, CardBody, CardItem } from "../components/ui/3d-card";
 import Image from "next/image";
 import { BackgroundGradient } from "../components/ui/backgrond-gradient";

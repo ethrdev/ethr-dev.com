@@ -1,8 +1,4 @@
-import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
-
-// Initialize the Redis client using environment variables.
-const redis = Redis.fromEnv();
 
 // Configuration for the edge runtime environment.
 export const config = {
@@ -48,21 +44,7 @@ export default async function incr(req: NextRequest): Promise<NextResponse> {
     const hash = Array.from(new Uint8Array(buf))
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
-
-    // Deduplicate the IP for each slug by setting a Redis key with an expiration of 24 hours.
-    const isNew = await redis.set(["deduplicate", hash, slug].join(":"), true, {
-      nx: true,
-      ex: 24 * 60 * 60,
-    });
-
-    // If the key already exists, return a 202 Accepted response without further processing.
-    if (!isNew) {
-      new NextResponse(null, { status: 202 });
-    }
   }
-
-  // Increment the pageview count for the given slug in the Redis database.
-  await redis.incr(["pageviews", "projects", slug].join(":"));
 
   // Return a 202 Accepted response indicating that the request was successful.
   return new NextResponse(null, { status: 202 });
