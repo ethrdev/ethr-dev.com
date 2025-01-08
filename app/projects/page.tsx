@@ -8,24 +8,13 @@ import { CardContainer, CardBody, CardItem } from "../components/ui/3d-card";
 import Image from "next/image";
 import { BackgroundGradient } from "../components/ui/backgrond-gradient";
 
-// Initialize Redis client from environment variables
-const redis = Redis.fromEnv();
 
 // Set the revalidation time for static generation
 export const revalidate = 60;
 
 // Define the main function for the Projects Page
 export default async function ProjectsPage() {
-  // Fetch page views data from Redis
-  const views = (
-    await redis.mget<number[]>(
-      ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":"))
-    )
-  ).reduce((acc, v, i) => {
-    acc[allProjects[i].slug] = v ?? 0; // Assign view count to each project's slug
-    return acc;
-  }, {} as Record<string, number>);
-
+  
   // Find specific projects to feature prominently
   const featured = allProjects.find(
     (project) => project.slug === "poker-scientist"
@@ -82,12 +71,7 @@ export default async function ProjectsPage() {
                       <span>SOON</span>
                     )}
                   </div>
-                  <span className="flex items-center gap-1 text-xs text-gray-400 font-medium">
-                    <Eye className="w-4 h-4" />{" "}
-                    {Intl.NumberFormat("en-US", {
-                      notation: "compact",
-                    }).format(views[featured.slug] ?? 0)}
-                  </span>
+                  
                 </div>
                 <CardItem
                   translateZ="50"
@@ -141,12 +125,7 @@ export default async function ProjectsPage() {
                         <span>SOON</span>
                       )}
                     </div>
-                    <span className="flex items-center gap-1 text-xs text-gray-500">
-                      <Eye className="w-4 h-4" />{" "}
-                      {Intl.NumberFormat("en-US", {
-                        notation: "compact",
-                      }).format(views[top2.slug] ?? 0)}
-                    </span>
+                    
                   </div>
                   <CardItem
                     translateZ="50"
@@ -204,12 +183,7 @@ export default async function ProjectsPage() {
                       <span>SOON</span>
                     )}
                   </div>
-                  <span className="flex items-center gap-1 text-xs text-gray-500">
-                    <Eye className="w-4 h-4" />{" "}
-                    {Intl.NumberFormat("en-US", {
-                      notation: "compact",
-                    }).format(views[bottom1.slug] ?? 0)}
-                  </span>
+                 
                 </div>
                 <CardItem
                   translateZ="50"
@@ -253,12 +227,7 @@ export default async function ProjectsPage() {
                       <span>SOON</span>
                     )}
                   </div>
-                  <span className="flex items-center gap-1 text-xs text-gray-500">
-                    <Eye className="w-4 h-4" />{" "}
-                    {Intl.NumberFormat("en-US", {
-                      notation: "compact",
-                    }).format(views[bottom2.slug] ?? 0)}
-                  </span>
+                  
                 </div>
                 <CardItem
                   translateZ="50"
